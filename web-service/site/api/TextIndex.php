@@ -660,4 +660,13 @@ class TextIndex {
         }
 
     }
+
+	public function insertFbItem($fields, $q, $filters=null, $unique=false)
+	{
+
+		$result = "temp";
+
+		return  $result;
+	}
+
 }

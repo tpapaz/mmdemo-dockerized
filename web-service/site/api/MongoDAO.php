@@ -394,6 +394,18 @@ class MongoDAO {
         return $rj;
     }
 
+	public function insertFbItem($iid, $cid, $item, $data) {
+
+		$id =  $iid . "_" . $cid;
+
+		$mongoCollection = $this->db->selectCollection(MongoDAO::$ITEMS);
+		$mongoCollection->insertOne($item);
+
+		$user = $item['user'];
+		$mongoCollection = $this->db->selectCollection(MongoDAO::$STREAM_USERS );
+		$mongoCollection->insertOne($user);
+	}
+
     public function insertItemUnderMonitoring($iid, $cid) {
 
         $id =  $iid . "_" . $cid;

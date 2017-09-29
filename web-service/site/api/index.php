@@ -112,6 +112,47 @@ $app->post('/items/:iid',
     }
 )->name("start_item_monitor");
 
+
+/**
+ *  POST /fb_items/:id
+ *
+ */
+$app->post('/fb_items/:iid',
+	function($iid) use ($mongoDAO, $textIndex, $app) {
+
+
+		$request = $app->request();
+		$cid = $request->get('cid');
+		$item = $mongoDAO->getItem($iid);
+		if($item === null) {
+			$item = array();
+		}
+		else {
+			$pieces = explode("#", $iid);
+			if(count($pieces) == 2) {
+
+				// TODO: get & create item for solr & MongoDAO
+				$data = $request->get('data');
+
+
+
+				// TODO: implement functionality
+
+				// First request to solr
+				$solr = $textIndex->insertFbItem($data, $message);
+
+				// Request to Mongo to save item
+				$mongoDAO->insertFbItem($iid, $cid, $item, $solr);
+
+
+			}
+
+		}
+		echo json_encode($item);
+
+	}
+)->name("post_fb_item");
+
 /**
  *  DELETE /items/:id
  */
